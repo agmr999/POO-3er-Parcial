@@ -2,14 +2,19 @@ import java.awt.*;
 
 public class Linea {
     private int x1, y1, x2, y2;
-    private String valor;
+    private int valor;
+    private Circulo inicio;
+    private Circulo fin;
+    private boolean dickar = false;
 
-    public Linea(int x1, int y1, int x2, int y2, String valor){
+    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin){
             this.x1=x1;
             this.y1=y1;
             this.x2=x2;
             this.y2=y2;
             this.valor=valor;
+            this.inicio = circulo;
+            this.fin=fin;
         }
 
         public void pintar(Graphics g){
@@ -18,18 +23,37 @@ public class Linea {
             linea.setPaint(Color.BLACK);
             linea.drawLine(x1,y1,x2,y2);
             if(x1>x2 && y1>y2){
-                g.drawString(valor,x1 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
+                g.drawString(String.valueOf(valor),x1 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
             }
             if(x1<x2 && y1<y2){
-                g.drawString(valor,x2 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
+                g.drawString(String.valueOf(valor),x2 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
             }
             if(x1>x2 && y1<y2){
-                g.drawString(valor,x1 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
+                g.drawString(String.valueOf(valor),x1 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
             }
             if(x1<x2 && y1>y2){
-                g.drawString(valor,x2 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
+                g.drawString(String.valueOf(valor),x2 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
             }
         }
+
+    public void dickpin(Graphics g){
+        Graphics2D linea = (Graphics2D)g;
+        linea.setStroke(new BasicStroke(4.f));
+        linea.setPaint(Color.RED);
+        linea.drawLine(x1,y1,x2,y2);
+        if(x1>x2 && y1>y2){
+            g.drawString(String.valueOf(valor),x1 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
+        }
+        if(x1<x2 && y1<y2){
+            g.drawString(String.valueOf(valor),x2 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
+        }
+        if(x1>x2 && y1<y2){
+            g.drawString(String.valueOf(valor),x1 - Math.abs((x1-x2)/2),y2 - Math.abs((y1-y2)/2));
+        }
+        if(x1<x2 && y1>y2){
+            g.drawString(String.valueOf(valor),x2 - Math.abs((x1-x2)/2),y1 - Math.abs((y1-y2)/2));
+        }
+    }
 
     public int getX1() {
         return x1;
@@ -63,11 +87,39 @@ public class Linea {
         this.y2 = y2;
     }
 
-    public String getValor() {
+    public Integer getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+
+    public Circulo getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Circulo inicio) {
+        this.inicio = inicio;
+    }
+
+    public Circulo getFin() {
+        return fin;
+    }
+
+    public void setFin(Circulo fin) {
+        this.fin = fin;
+    }
+
+    public boolean isDickar() {
+        return dickar;
+    }
+
+    public void setDickar(boolean dickar) {
+        this.dickar = dickar;
+    }
+
+    public void setValor(Integer valor) {
         this.valor = valor;
     }
 }
