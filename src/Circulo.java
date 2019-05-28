@@ -21,7 +21,7 @@ public class Circulo {
     }
 
 
-    public Circulo(int x, int y, String nombre, ArrayList<Circulo> tiene, ArrayList<Integer> distancia, boolean Inicio, boolean Fin){
+    public Circulo(int x, int y, String nombre, ArrayList<Circulo> tiene, ArrayList<Integer> distancia, boolean Inicio, boolean Fin, boolean dick){
             this.x=x;
             this.y=y;
             this.nombre=nombre;
@@ -29,6 +29,7 @@ public class Circulo {
             this.Final=Fin;
             this.setTiene(tiene);
             this.setDistancia(distancia);
+            this.Dick=dick;
     }
 
     public void dickstra(Graphics g){

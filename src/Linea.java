@@ -6,8 +6,9 @@ public class Linea {
     private Circulo inicio;
     private Circulo fin;
     private boolean dickar = false;
+    private Point pm;
 
-    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin){
+    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin, Point pm){
             this.x1=x1;
             this.y1=y1;
             this.x2=x2;
@@ -15,7 +16,19 @@ public class Linea {
             this.valor=valor;
             this.inicio = circulo;
             this.fin=fin;
+            this.pm=pm;
         }
+
+    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin, boolean dick){
+        this.x1=x1;
+        this.y1=y1;
+        this.x2=x2;
+        this.y2=y2;
+        this.valor=valor;
+        this.inicio = circulo;
+        this.fin=fin;
+        this.dickar=dick;
+    }
 
         public void pintar(Graphics g){
             Graphics2D linea = (Graphics2D)g;
@@ -117,6 +130,14 @@ public class Linea {
 
     public void setDickar(boolean dickar) {
         this.dickar = dickar;
+    }
+
+    public Point getPm() {
+        return pm;
+    }
+
+    public void setPm(Point pm) {
+        this.pm = pm;
     }
 
     public void setValor(Integer valor) {

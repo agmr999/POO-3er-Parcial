@@ -1,3 +1,4 @@
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +11,7 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
     private Vector<Linea> vectorlinea;
     private ArrayList<Integer> Distancia = new ArrayList<>();
     private ArrayList<Circulo> tiene = new ArrayList<>();
-    private Point p1, p2;
+    private Point p1, p2, pm;
     private Circulo mover;
     private int iNodo;
     private Circulo c1;
@@ -21,7 +22,11 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
     private  JMenuItem inicio;
     private  JMenuItem fin;
     private  JMenuItem eliminar;
+    private  JMenuItem Cambiararista;
+    private  JMenuItem eliminararista;
+    private JPopupMenu poparista;
     private Circulo usarcirculo;
+    private Linea usararista;
     private MouseEvent ee;
     private JPanel jp;
     private JButton boton = new JButton("Dikstra");
@@ -38,6 +43,7 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
         this.vectorlinea = new Vector<>();
         setCirculos(new ArrayList<>());
         pop = new JPopupMenu();
+        poparista = new JPopupMenu();
         jp = new JPanel();
         jp.add(boton);
         conectar = new JMenuItem("Conectar");
@@ -46,12 +52,15 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
         inicio = new JMenuItem("Nodo inicio");
         fin = new JMenuItem("Nodo final");
         eliminar = new JMenuItem("Eliminar nodo");
+        eliminararista = new JMenuItem("Eliminar arista");
+        Cambiararista = new JMenuItem("Cambiar valor de la arista");
         pop.add(conectar);
         pop.add(color);
         pop.add(eliminar);
         pop.add(nombre);
         pop.add(inicio);
         pop.add(fin);
+        poparista.add(eliminararista);
         super.add(jp,BorderLayout.SOUTH);
         this.addMouseMotionListener(this);
         addMouseListener(this);
@@ -81,6 +90,12 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
             public void actionPerformed(ActionEvent actionEvent) {
                 nodofinal(usarcirculo);
                 repaint();
+            }
+        });
+        eliminararista.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                eliminararis(usararista);
             }
         });
         boton.addActionListener(new ActionListener() {
@@ -133,6 +148,12 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
                     pop.show(e.getComponent(), e.getX(), e.getY());
                     usarcirculo = circulo;
                     ee = e;
+                }
+            }
+            for(Linea linea : vectorlinea){
+                if(new Rectangle(linea.getPm().x,linea.getPm().y,20,20).contains(e.getPoint())){
+                    poparista.show(e.getComponent(), e.getX(), e.getY());
+                    usararista = linea;
                 }
             }
         }
@@ -189,15 +210,15 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
     @Override
     public void mouseDragged(MouseEvent e) {
         if(( mover != null)){
-            this.circulos.set(iNodo, new Circulo(e.getX(),e.getY(),mover.getNombre(),mover.getTiene(),mover.getDistancia(),mover.getInicio(),mover.getFinal()));
+            this.circulos.set(iNodo, new Circulo(e.getX(),e.getY(),mover.getNombre(),mover.getTiene(),mover.getDistancia(),mover.getInicio(),mover.getFinal(),mover.isDick()));
             int iE = 0;
             for (Linea linea: vectorlinea){
                 if(new Rectangle(linea.getX1()-30,linea.getY1()-30,Circulo.d,Circulo.d).contains(e.getPoint())){
-                    this.vectorlinea.set(iE, new Linea(e.getX(),e.getY(),linea.getX2(),linea.getY2(),linea.getValor(),linea.getInicio(),linea.getFin()));
+                    this.vectorlinea.set(iE, new Linea(e.getX(),e.getY(),linea.getX2(),linea.getY2(),linea.getValor(),linea.getInicio(),linea.getFin(),linea.isDickar()));
 
                 }
                 else if(new Rectangle(linea.getX2()-30,linea.getY2()-30,Circulo.d,Circulo.d).contains(e.getPoint())){
-                    this.vectorlinea.set(iE, new Linea(linea.getX1(),linea.getY1(),e.getX(),e.getY(),linea.getValor(),linea.getInicio(),linea.getFin()));
+                    this.vectorlinea.set(iE, new Linea(linea.getX1(),linea.getY1(),e.getX(),e.getY(),linea.getValor(),linea.getInicio(),linea.getFin(),linea.isDickar()));
                 }
                 iE++;
             }
@@ -225,7 +246,9 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
                     if(valor!=null) {
                         int valorn = Integer.parseInt(valor);
                         c1.agregar(circulo, valorn);
-                        Linea l1 = new Linea(p1.x, p1.y, p2.x, p2.y, valorn, c1,circulo);
+                        pm = puntomedarista(p1,p2);
+                        Linea l1 = new Linea(p1.x, p1.y, p2.x, p2.y, valorn, c1,circulo, pm);
+
                         this.vectorlinea.add(l1);
                         l1.setInicio(c1);
                         l1.setFin(circulo);
@@ -308,8 +331,27 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
     }
     }
 
-    public void dickarist(){
+    public void cambiarista(Linea linea){
+        String valor = JOptionPane.showInputDialog("Ingresa el valor de la arista: ");
+        if(valor!=null) {
+            int valorn = Integer.parseInt(valor);
+            linea.setValor(valorn);
+        }else {
+            System.out.println("ok");
+        }
+    }
 
+    public void eliminararis(Linea linea){
+        vectorlinea.remove(linea);
+        linea.getInicio().eliminararista(linea.getFin().getNombre());
+        repaint();
+    }
+
+    public Point puntomedarista(Point a, Point b){
+        int x = ((a.x+b.x)/2);
+        int y = ((a.y+b.y)/2);
+        Point p = new Point(x,y);
+        return p;
     }
 
 
