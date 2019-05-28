@@ -10,6 +10,7 @@ public class Circulo {
     private ArrayList<Circulo> tiene = new ArrayList<>();
     private boolean Inicio = false;
     private boolean Final = false;
+    private boolean color = false;
     private ArrayList<Etiqueta> etiquetas = new ArrayList<>();
     public ArrayList<Linea> lineas = new ArrayList<>();
     private boolean Dick = false;
@@ -32,13 +33,27 @@ public class Circulo {
             this.Dick=dick;
     }
 
+    public void color(Graphics g){
+        //g.drawOval(this.x,this.y,this.d,this.d);
+        Graphics2D circulo = (Graphics2D)g;
+        circulo.setStroke(new BasicStroke(2.f));
+        int x = (int) (Math.random() * 1000) + 1;
+        int y = (int) (Math.random() * 1000) + 1;
+        int z = (int) (Math.random() * 1000) + 1;
+        circulo.setPaint(Color.getHSBColor(x,y,z));
+        //circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
+        circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
+        g.drawString(nombre,x,y);
+    }
+
+
     public void dickstra(Graphics g){
         //g.drawOval(this.x,this.y,this.d,this.d);
         Graphics2D circulo = (Graphics2D)g;
         circulo.setStroke(new BasicStroke(3.f));
         circulo.setPaint(Color.RED);
         //circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
-        circulo.drawOval(this.x- d/2,this.y -d/2,d,d);
+        circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
         g.drawString(nombre,x,y);
     }
 
@@ -57,7 +72,7 @@ public class Circulo {
         //g.drawOval(this.x,this.y,this.d,this.d);
         Graphics2D circulo = (Graphics2D)g;
         circulo.setStroke(new BasicStroke(3.f));
-        circulo.setPaint(Color.GREEN);
+        circulo.setPaint(Color.BLUE);
         circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
         //circulo.drawOval(this.x- d/2,this.y -d/2,d,d);
         g.drawString(nombre,x,y);
@@ -67,10 +82,10 @@ public class Circulo {
         //g.drawOval(this.x,this.y,this.d,this.d);
         Graphics2D circulo = (Graphics2D)g;
         circulo.setStroke(new BasicStroke(3.f));
-        circulo.setPaint(Color.BLUE);
+        circulo.setPaint(Color.BLACK);
         //circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
         circulo.drawOval(this.x- d/2,this.y -d/2,d,d);
-        g.drawString(nombre,x,y);
+        g.drawString(nombre,x-4,y-10);
     }
 
     public void agregar(Circulo circulo, int valor){
@@ -91,6 +106,7 @@ public class Circulo {
     }
 
     public Integer recorrer(Integer valor, String nombre){
+        String text = "";
         int a=0;
         Etiqueta et = new Etiqueta(nombre,valor);
         etiquetas.add(et);
@@ -101,22 +117,24 @@ public class Circulo {
             }
         }
         else{
-            System.out.println("si");
+            //System.out.println("si");
         }
-        System.out.println(this.getNombre()+"---["+nombre+","+valor+"]");
-        return valor;
+        //System.out.println(this.getNombre()+"---["+nombre+","+valor+"]");
+        text = text + (this.getNombre()+"---["+nombre+","+valor+"]");
+        Frame.etiquetas.setText(Frame.etiquetas.getText()+"\n"+text);
+        return a;
     }
 
     public Etiqueta sacardick(){
-        Integer x = 1000000000;
-        Etiqueta eti = new Etiqueta(this.getNombre(),0);
+        Integer x = 100000000;
+        Etiqueta eti = new Etiqueta(this.getNombre(),1000000000);
             for (Etiqueta et : etiquetas) {
                 if (et.getValor() < x) {
                     x = et.getValor();
                     eti = new Etiqueta(et.getNodo(),et.getValor());
             }
         }
-        System.out.println("{"+eti.getNodo()+","+eti.getValor()+"}");
+        //System.out.println("{"+eti.getNodo()+","+eti.getValor()+"}");
             return eti;
     }
 
@@ -212,6 +230,22 @@ public class Circulo {
 
     public void setEtiquetas(ArrayList<Etiqueta> etiquetas) {
         this.etiquetas = etiquetas;
+    }
+
+    public boolean isColor() {
+        return color;
+    }
+
+    public void setColor(boolean color) {
+        this.color = color;
+    }
+
+    public ArrayList<Linea> getLineas() {
+        return lineas;
+    }
+
+    public void setLineas(ArrayList<Linea> lineas) {
+        this.lineas = lineas;
     }
 
     public boolean isDick() {

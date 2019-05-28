@@ -19,7 +19,7 @@ public class Linea {
             this.pm=pm;
         }
 
-    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin, boolean dick){
+    public Linea(int x1, int y1, int x2, int y2, int valor, Circulo circulo, Circulo fin, boolean dick, Point pm){
         this.x1=x1;
         this.y1=y1;
         this.x2=x2;
@@ -28,6 +28,7 @@ public class Linea {
         this.inicio = circulo;
         this.fin=fin;
         this.dickar=dick;
+        this.pm=pm;
     }
 
         public void pintar(Graphics g){
