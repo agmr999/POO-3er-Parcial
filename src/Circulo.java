@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Circulo {
+public class Circulo implements Serializable {
 
     private int x=0, y=0;
     private String nombre;
@@ -85,7 +86,7 @@ public class Circulo {
         circulo.setPaint(Color.BLACK);
         //circulo.fillOval(this.x- d/2,this.y -d/2,d,d);
         circulo.drawOval(this.x- d/2,this.y -d/2,d,d);
-        g.drawString(nombre,x-4,y-10);
+        g.drawString(nombre,x-18,y-30);
     }
 
     public void agregar(Circulo circulo, int valor){
@@ -110,7 +111,7 @@ public class Circulo {
         int a=0;
         Etiqueta et = new Etiqueta(nombre,valor);
         etiquetas.add(et);
-        if(!this.getTiene().isEmpty()) {
+        if(!this.isFinal()||!(getTiene().isEmpty())) {
             for (Circulo circulo : tiene) {
                 circulo.recorrer(this.Distancia.get(a)+valor,this.getNombre());
                 a++;
@@ -127,12 +128,14 @@ public class Circulo {
 
     public Etiqueta sacardick(){
         Integer x = 100000000;
-        Etiqueta eti = new Etiqueta(this.getNombre(),1000000000);
+        int a=0;
+        Etiqueta eti = null;
             for (Etiqueta et : etiquetas) {
                 if (et.getValor() < x) {
                     x = et.getValor();
-                    eti = new Etiqueta(et.getNodo(),et.getValor());
+                    eti = etiquetas.get(a);
             }
+                a++;
         }
         //System.out.println("{"+eti.getNodo()+","+eti.getValor()+"}");
             return eti;

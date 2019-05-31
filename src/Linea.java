@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-public class Linea {
+public class Linea implements Serializable {
     private int x1, y1, x2, y2;
     private int valor;
     private Circulo inicio;
