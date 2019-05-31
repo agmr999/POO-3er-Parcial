@@ -53,7 +53,11 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
     private ImageIcon icondick = new ImageIcon("src/Imagenes/mapa.png");
     private ImageIcon iconeliminar = new ImageIcon("src/Imagenes/basura.png");
     private ImageIcon iconguardar = new ImageIcon("src/Imagenes/disco.png");
+    private ImageIcon cur = new ImageIcon("src/Imagenes/cursor.png");
+    private ImageIcon icono = new ImageIcon("src/Imagenes/meme.png");
     private JMenu Guardar;
+    private JMenu importar;
+    private JMenuItem impweb;
     private JMenuBar atajos;
     private JMenuItem Guardara;
     private JMenuItem Abrirar;
@@ -69,14 +73,22 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
         this.repaint();
         this.Lineas = new Vector<>();
         setCirculos(new ArrayList<>());
+        Cursor cursor;
+        Toolkit t = Toolkit.getDefaultToolkit();
+        cursor = t.createCustomCursor(cur.getImage(),new Point(1,1),"Cursor");
+        setCursor(cursor);
         cumguardar = 0;
         atajos= new JMenuBar();
+        importar = new JMenu("Importar");
+        impweb = new JMenuItem("Importar grafo de pagina web");
         Guardar = new JMenu("Archivo");
         Abrirar = new JMenuItem("Abrir archivo");
         Guardara = new JMenuItem("Guardar archivo");
         Guardar.add(Abrirar);
         Guardar.add(Guardara);
+        importar.add(impweb);
         atajos.add(Guardar);
+        atajos.add(importar);
         setJMenuBar(atajos);
         pop = new JPopupMenu();
         poparista = new JPopupMenu();
@@ -160,6 +172,12 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
         super.add(jp,BorderLayout.SOUTH);
         this.addMouseMotionListener(this);
         addMouseListener(this);
+        impweb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JOptionPane.showMessageDialog(null,"AAHHHH se la creyo profe jajaja", "Troll", JOptionPane.PLAIN_MESSAGE, icono);
+            }
+        });
         Guardaencorto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -204,18 +222,23 @@ public class Frame extends JFrame implements MouseListener, MouseMotionListener 
         reinicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showConfirmDialog(null,"¿Seguro que quieres eliminar esto?");
-                circulos.clear();
-                Lineas.clear();
-                etiquetas.setText("");
-                repaint();
+                int a = JOptionPane.showConfirmDialog(null,"¿Seguro que quieres eliminar esto?");
+                if(a==0) {
+                    circulos.clear();
+                    Lineas.clear();
+                    etiquetas.setText("");
+                    repaint();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null,"OK");
+                }
             }
         });
         BotonCirculo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                int x = (int) (Math.random() * 450) + 50;
-                int y = (int) (Math.random() * 450) + 50;
+                int x = (int) (Math.random() * 400) + 50;
+                int y = (int) (Math.random() * 400) + 50;
                 botoncirculo(x,y);
             }
         });
